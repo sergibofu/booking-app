@@ -39,7 +39,7 @@ exports.getAirport = (req, res) => {
             status: "success"
         }
 
-        res.send(JSON.stringify(response));
+        res.json(response);
 
     }).catch((err) => {
         //en caso de error, preparamos nuestra respuesta y le enviamos a la vista tambien
@@ -48,7 +48,7 @@ exports.getAirport = (req, res) => {
             status: "failed"
         };
 
-        res.send(JSON.stringify(response));
+        res.json(response);
     });
 
 };
@@ -75,11 +75,10 @@ exports.getFlights = (req, res) => {
         adults: req.query.adults
 
     }).then(function (response) {
-        console.log(response.data)
-        res.send(JSON.stringify(response.data));   
+        res.json(response.data);
 
     }).catch(function (responseError) {
-        res.send(JSON.stringify(responseError));
+        res.json(responseError);
     })
 };
 
