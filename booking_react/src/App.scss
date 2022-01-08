@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;1,500&display=swap');
+
+.App {
+  text-align: center;
+  font-family: 'Roboto' ,Helvetica,Arial,sans-serif;
+}
+
+
+
+
+
+.navlinks{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .navlink{
+    font-size: 10px;
+    margin-right: 10px;
+    border: solid 1px;
+    border-radius: 20px;
+  }
+
+  .myNavSection{
+    display: flex;
+    flex-direction: row;
+  }
+  
+  
+}
