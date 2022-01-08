@@ -4,12 +4,19 @@ exports.get = () => {
     const userSchema = new mongoose.Schema({
         email: {
             type: String,
-            select: false,
             index: true,
             unique: true
         },
-        password: String,
-        date: Date
+        password:  String,
+        date: Date,
+        token: String
     });
-    return mongoose.model('User', userSchema);
+
+    //si no existe creamos el modelo y luego lo retronamos, si existe, lo retornamos
+    if(!mongoose.models['User']){
+        return mongoose.model('User', userSchema);
+    }else{
+        return mongoose.models['User'];
+    }
+    
 }

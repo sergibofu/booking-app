@@ -1,14 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const jwt = require('jsonwebtoken');
 const hashing = require('../helpers/hashing.js');
 const model = require('../models/UserModel');
 
 //funcion para crear modelo
-const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.pcno5.mongodb.net/booking-app?retryWrites=true&w=majority`;
-mongoose.connect(url);//conectamos a la bbdd
+// const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.pcno5.mongodb.net/booking-app?retryWrites=true&w=majority`;
+// mongoose.connect(url);//conectamos a la bbdd
 
 const UserModel = model.get();
-
 
 
 //validamos la contraseña y el email (y opcionalmente el id)
@@ -89,11 +89,12 @@ exports.updateUser = (req, res) => {
 
         UserModel.findOne({ _id: req.body._id }, (err, user) => {
 
-            if (err) {
+            if (!user) {
                 res.json({
                     status: "failed",
-                    error: err
-                })
+                    error: "Id no valido"
+                }).end();
+                return;
             }
 
             user.email = req.body.email;
@@ -128,8 +129,6 @@ exports.updateUser = (req, res) => {
 //handler para el 
 exports.deleteUser = (req, res) => {
 
-
-
     try {
 
         if(!req.body._id){
@@ -137,11 +136,12 @@ exports.deleteUser = (req, res) => {
         }
 
         UserModel.findOne({ _id: req.body._id }, (err, user) => {
-            if (err) {
+            if (!user) {
                 res.json({
                     status: "failed",
-                    error: err
-                });
+                    error: "Error, id no valido"
+                }).end();
+                return;
             }
 
             user.remove()
@@ -176,21 +176,28 @@ exports.login = (req, res) => {
         UserModel.findOne({ email: req.body.email }, (err, user) => {
 
             try {
-                if (err) {
-                    throw err;
+                
+                if (!user) {
+                    throw "El email no es correcto";
                 }
                 
                 if (user.password != hashing.hashPassword(req.body.password)) {
-                    throw "contraseña no valida"
+                    throw "contraseña no valida";
                 }
                 
+                let token = jwt.sign({id: user._id, email: user.email}, process.env.JWT_SECRET, {expiresIn: 86400});
+                user.token = token;
+                user.save()
+                .then((response)=>{
+                    res.json({
+                        status: "success",
+                        data: user
+                    });
+                })
 
-                res.json({
-                    status: "success",
-                    jwt: "87dsf78789sda78s78sa"
-                });
 
             } catch (err) {
+                console.log(err);
                 res.json({
                     status: "failed",
                     error: err
@@ -208,3 +215,4 @@ exports.login = (req, res) => {
         })
     }
 };
+
