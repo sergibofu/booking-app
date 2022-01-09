@@ -1,11 +1,16 @@
-import { FormControl, Button, InputGroup } from 'react-bootstrap';
+import { FormControl, Button, InputGroup, Alert } from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlane, faBed, faGlobeEurope, faLock, faUser} from '@fortawesome/free-solid-svg-icons';
 import {useState} from 'react';
 import axios from 'axios';
 
-function RegisterForm({setUser}) {
+function RegisterForm({setUser, baseURL}) {
     const [params, setParams] = useState({email: '', password: ''});
+    const [alert, setAlert] = useState(false);
+
+    const showDangerAlert = () => {
+        setAlert(true);
+    }
 
     const handleEmailChange = (event) =>{
             let password = params.password;
@@ -17,13 +22,13 @@ function RegisterForm({setUser}) {
         setParams({email: email, password: event.target.value});
 }
     const sendRegister = (event) => {
-        axios.post('http://localhost:3001/auth/register', params)
+        axios.post(baseURL + '/auth/register', params)
         .then((response)=>{
             console.log(response.data);
             let status = response.data.status;
             if(status != 'success'){
                 refreshRegister();
-
+                showDangerAlert();
                 return;
             }
             let data = response.data.data;
@@ -41,6 +46,7 @@ function RegisterForm({setUser}) {
         })
         .catch((err)=>{
             refreshRegister();
+            showDangerAlert();
         });
     }
 
@@ -76,6 +82,7 @@ function RegisterForm({setUser}) {
                     />
                 </InputGroup>
                 <Button onClick={sendRegister} className="registerBtn" variant="primary" size="lg">Register</Button>
+                <Alert className='mt-3' variant='danger' hidden={!alert}>Se ha producido un error, intentelo de nuevo mas tarde</Alert>
             </div>
         
         </div>

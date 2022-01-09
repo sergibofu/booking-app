@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const model = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
-const { end } = require('@popperjs/core');
 
 exports.isSigned = (req, res, next) => {
     const UserModel = model.get();

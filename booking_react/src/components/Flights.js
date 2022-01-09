@@ -1,14 +1,10 @@
 import {useState, useEffect} from 'react';
 
-const Flights = ({setUser}) => {
-    let mySavedUser = localStorage.getItem('user');
-    if(mySavedUser != null){
-        mySavedUser = JSON.parse(mySavedUser);
-        console.log(mySavedUser);
-    }
+const Flights = ({user, baseURL}) => {
+    
     return(
         <div>
-         
+            <h1>Flights here</h1>
         </div>
     )
 }

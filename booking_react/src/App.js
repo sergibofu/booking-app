@@ -5,9 +5,12 @@ import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import { useState, useEffect } from 'react';
 import Flights from './components/Flights';
+import ProtectedRoute from './components/ProtectedRoute';
+import Test from './components/Test';
 
 
 function App() {
+  const baseURL = "http://localhost:3001";
   const [user, setUser] = useState(
     {
       date: "",
@@ -28,18 +31,20 @@ function App() {
           setUser(myUser);
         }
       }
-    })
+    }, [])
 
   return (
     <div className="App">
-      <MyNavbar setUser={setUser} user={user} />
+      <MyNavbar setUser={setUser} user={user} />      
 
       <Router>
         <Routes>
-          <Route path="/login" element={user.loggedIn ? <Navigate to="/flights"/>: <LoginForm setUser={setUser} />}/>
-          <Route path="/register" element={user.registered ? <Navigate to="/login"/>: <RegisterForm setUser={setUser}/>} />
-          <Route path="/flights" element={<Flights setUser={setUser}/>} />
-
+          {/* Rutas abiertas */}
+          <Route path="/login" element={user.loggedIn ? <Navigate to="/flights"/>: <LoginForm setUser={setUser} baseURL={baseURL}/>}/>
+          <Route path="/register" element={user.registered ? <Navigate to="/login"/>: <RegisterForm setUser={setUser} baseURL={baseURL}/>} />
+          
+          {/* Rutas protegidas */}
+          <Route path="/flights" element={user.loggedIn ? <Flights user={user} baseURL={baseURL}/> : <Navigate to="/login"/>} />
         </Routes>
       </Router>
 

@@ -1,11 +1,16 @@
-import { FormControl, Button, InputGroup } from 'react-bootstrap';
+import { FormControl, Button, InputGroup, Alert } from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPlane, faBed, faGlobeEurope, faLock, faUser} from '@fortawesome/free-solid-svg-icons';
 import {useState} from 'react';
 import axios from 'axios';
 
-function LoginForm({setUser}) {
+function LoginForm({setUser, baseURL}) {
     const [params, setParams] = useState({email: '', password: ''});
+    const [alert, setAlert] = useState(false);
+
+    const showDangerAlert = () => {
+        setAlert(true);
+    }
 
     const handleEmailChange = (event) =>{
             let password = params.password;
@@ -17,10 +22,11 @@ function LoginForm({setUser}) {
         setParams({email: email, password: event.target.value});
 }
     const sendLogin = (event) => {
-        axios.post('http://localhost:3001/auth/login', params)
+        axios.post(baseURL + '/auth/login', params)
         .then((response)=>{
             let status = response.data.status;
             if(status != 'success'){
+                showDangerAlert();
                 refreshLogin();
 
                 return;
@@ -39,7 +45,7 @@ function LoginForm({setUser}) {
             
         })
         .catch((err)=>{
-            console.log(err);
+            showDangerAlert();
         });
     }
 
@@ -75,8 +81,9 @@ function LoginForm({setUser}) {
                     />
                 </InputGroup>
                 <Button onClick={sendLogin} className="loginBtn" variant="primary" size="lg">Log In</Button>
+                <Alert className='mt-3' variant='danger' hidden={!alert}>Se ha producido un error, intentelo de nuevo mas tarde</Alert>
+
             </div>
-        
         </div>
         
     )
