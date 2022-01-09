@@ -1,9 +1,22 @@
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import './custom/nav-custom.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPlane, faBed, faGlobeEurope, faLock, faUser} from '@fortawesome/free-solid-svg-icons';
+import {faSignOutAlt, faPlane, faBed, faGlobeEurope, faLock, faUser} from '@fortawesome/free-solid-svg-icons';
+import { Fragment } from 'react';
 
-function MyNavbar() {
+function MyNavbar({user, setUser}) {
+
+  const logOut = (event) => {
+    localStorage.removeItem('user');
+    setUser({
+      date: "",
+      email: "",
+      token: "",
+      _id: "",
+      loggedIn: false,
+      registered: false
+    });
+  }
   return (
     <Navbar variant="dark" bg="blueNav" expand="lg">
       <Container>
@@ -18,8 +31,16 @@ function MyNavbar() {
             </div>
 
             <div className="rightNavSection myNavSection">
+            
+          {user.loggedIn ?  
+          /*if logged in, show logout button */
+          <Nav.Link onClick={logOut} className='navlink'><FontAwesomeIcon className='mr-5' icon={faSignOutAlt}/>  logout</Nav.Link> :            
+          
+          /*if not, show register and login buttons */
+          <Fragment>
             <Nav.Link className='navlink' href="/login"><FontAwesomeIcon className='mr-5' icon={faLock}/>  login</Nav.Link>
             <Nav.Link className='navlink' href="/register "><FontAwesomeIcon className='mr-5' icon={faUser}/> register</Nav.Link> 
+            </Fragment>}
             </div>
           </Nav>
         </Navbar.Collapse>

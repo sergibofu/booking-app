@@ -19,23 +19,32 @@ function LoginForm({setUser}) {
     const sendLogin = (event) => {
         axios.post('http://localhost:3001/auth/login', params)
         .then((response)=>{
+            let status = response.data.status;
+            if(status != 'success'){
+                refreshLogin();
+
+                return;
+            }
             let data = response.data.data;
-
-            setUser(
-                {
-                    date: data.date,
-                    email: data.email,
-                    token: data.token,
-                    _id: data._id,
-                    loggedIn: true
-                });
-
-                
+            let user = {
+                date: data.date,
+                email: data.email,
+                token: data.token,
+                _id: data._id,
+                loggedIn: true,
+                registered: true
+            };
+            localStorage.setItem('user', JSON.stringify(user));
+            setUser(user);     
             
         })
         .catch((err)=>{
             console.log(err);
         });
+    }
+
+    const refreshLogin = () => {
+        setParams({email: '', password: ''});
     }
 
     return (
@@ -50,6 +59,7 @@ function LoginForm({setUser}) {
                         aria-label="Email"
                         aria-describedby="email-addon"
                         id="email"
+                        value={params.email}
                     />
                 </InputGroup>
 
@@ -61,6 +71,7 @@ function LoginForm({setUser}) {
                         aria-label="Password"
                         aria-describedby="password-addon"
                         id="password"
+                        value={params.password}
                     />
                 </InputGroup>
                 <Button onClick={sendLogin} className="loginBtn" variant="primary" size="lg">Log In</Button>
