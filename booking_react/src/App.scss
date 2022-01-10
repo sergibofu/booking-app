@@ -83,11 +83,11 @@
   }
   
   .flightCardBody{
-    height: 140px;
+    height: 180px;
     border: solid 1px;
     
     .flightCardBodyInner{
-      height: 110px;
+      height: 150px;
     }
 
     .flightCardBodyInnerLeft{
@@ -97,12 +97,41 @@
       align-items: center;
       padding-left: 50px;
       padding-right: 50px;
-
+      .arrivalTime, .departureTime{
+        text-align: left;
+        font-size: 14px;
+      }
     }
 
 
     .flightCardBodyInnerRight{
-      
+      .lugageIconsContainer{
+        padding: 5px;
+        text-align: right;
+        .lugageIcons{
+          margin: 3px;
+          font-size: 19 px;
+        }
+
+        .lugageIconsSubtext{
+          font-size: 11px;
+          font-weight: 600;
+        }
+      }
+
+      .priceContainer{
+        height: 100px;
+        padding: 2px;
+        .price{
+          padding-top: 5px;
+          text-align: right;
+          font-size: 28px;
+          font-weight: 900;
+        }
+        .goToFlightButton{
+          width: 100%;
+        }
+      }
     }
   }
 
