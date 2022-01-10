@@ -14,7 +14,7 @@ o aeropuertos de la misma
 */
 exports.getAirport = (req, res) => {
     let city = '';
-
+    
     //comprobamos si hay errores en el parametro
     if (!req.query.city) {
         res.send({
@@ -22,7 +22,8 @@ exports.getAirport = (req, res) => {
                 error: "All params are required"
             },
             status: 'failed'
-        })
+        }).end();
+        return;
     } else {
         city = req.query.city;
     }
@@ -58,6 +59,7 @@ Este handler recibe como parametro el codigo de dos ciudades + fecha y retorna u
 las dos ciudades ordenados por precio y las fechas de los mismos
 */
 exports.getFlights = (req, res) => {
+
     if (!req.query.origin || !req.query.destination || !req.query.date || !req.query.adults) {
         response = {
             data: {
@@ -65,7 +67,8 @@ exports.getFlights = (req, res) => {
             },
             status: "success"
         }
-        res.send(JSON.stringify(response));
+        res.json(response).end();
+        return;
     }
 
     amadeus.shopping.flightOffersSearch.get({
@@ -75,10 +78,14 @@ exports.getFlights = (req, res) => {
         adults: req.query.adults
 
     }).then(function (response) {
-        res.json(response.data);
+        res.json({
+            status: 'success',
+            data: response.data});
 
     }).catch(function (responseError) {
-        res.json(responseError);
+        res.json({
+            status: 'success',
+            data: responseError});
     })
 };
 

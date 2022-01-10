@@ -5,7 +5,111 @@
   font-family: 'Roboto' ,Helvetica,Arial,sans-serif;
   height: 100%;
 }
-//------------------------------
+//Flights
+.flightsContainer{
+  box-sizing: border-box;
+  margin:auto;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+
+  .aboveFormRow{
+    width: 100%;
+    height: 85px;
+
+    .title{
+      font-weight: 900;
+      font-size: 30px;
+      padding: 0px;
+    }
+
+    .subtitle{
+      margin-top: 0;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+
+    text-align: left;
+    font-size: 80px;
+    font-weight: 600;
+    margin: auto;
+  }
+
+  .formRow{
+    margin: auto;
+  }
+  .formCol{
+    padding: 0px;
+    text-align: left;
+  }
+
+  .formCol1{
+    padding: auto;
+  }
+
+  .flightInputGroup{
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+    border: solid 5px #FEBB02;
+    height: 100%;
+
+  }
+
+
+
+  .flightButton{
+    border: solid 5px #FEBB02;
+    height: 100%;
+    width: 100%;
+
+  }
+}
+
+//Flight component
+.flightInfoRow{
+  margin-top: 25px;
+  width: 100%;
+
+}
+
+.flightInfo{
+  margin-top: 10px;
+
+  .flightCardHeader{
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .flightCardBody{
+    height: 140px;
+    border: solid 1px;
+    
+    .flightCardBodyInner{
+      height: 110px;
+    }
+
+    .flightCardBodyInnerLeft{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      padding-left: 50px;
+      padding-right: 50px;
+
+    }
+
+
+    .flightCardBodyInnerRight{
+      
+    }
+  }
+
+
+}
+
+//Register
 .registerFormContainer{
   display: flex;
   justify-content: center;
@@ -28,7 +132,7 @@
 
   }
 }
-//------------------------------
+
 //LOGIN
 .loginFormContainer{
   display: flex;
@@ -78,4 +182,11 @@
 //Helpers
 .thiccFont{
   font-weight: 900;
+}
+
+.bigLetter{
+  font-size:27px;
+}
+.transparent{
+  opacity: 0.0 - 1.0;
 }

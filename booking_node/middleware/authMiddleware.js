@@ -13,7 +13,9 @@ exports.isSigned = (req, res, next) => {
         return;
     }
     const token = req.headers.authorization.split(" ")[1];
+
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded)=>{
+        
         if(err){
             res.json({
                 status: 'failed',
@@ -23,9 +25,12 @@ exports.isSigned = (req, res, next) => {
         }
         
         UserModel.findOne({_id: decoded.id}, (err, user) => {
+            
+
             try {
                 
                 if(user.email == decoded.email){
+                
                     return next();
                 }else{
                    throw "Token no valido"
